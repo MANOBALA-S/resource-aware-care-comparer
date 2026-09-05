@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Care Option Comparison — Resource-Aware Care Option Comparer</title>
+  <meta name="description" content="Side-by-side comparison between textbook baseline guidelines and resource-aware decision support for identical synthetic patient cases.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="comparer.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header" id="app-header">
+      <div class="header-left">
+        <div class="logo-group">
+          <span class="pulse-dot"></span>
+          <h1 class="header-title">Resource-Aware Care Option Comparer</h1>
+        </div>
+        <span class="view-title">Care Option Comparison Screen</span>
+      </div>
+
+      <div class="header-badges">
+        <span class="synthetic-badge" id="synthetic-badge" title="All data is synthetically generated" style="color: #fbbf24; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); font-weight: 700; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 9999px;">
+          SYNTHETIC DATA — FOR DEMONSTRATION ONLY
+        </span>
+        <div class="disclaimer-banner" id="governance-disclaimer">
+          <span class="disclaimer-icon">⚠️</span>
+          <span class="disclaimer-text">Decision-support prototype — clinician sign-off required.</span>
+        </div>
+      </div>
+
+      <nav class="header-nav" id="header-nav">
+        <a href="/ui/clinician/index.html" class="nav-link" id="link-clinician">Clinician Screen</a>
+        <a href="/ui/followup/index.html" class="nav-link" id="link-followup">Follow-Up Queue</a>
+        <a href="/ui/comparer/index.html" class="nav-link active" id="link-comparer">Option Comparer</a>
+      </nav>
+    </header>
+
+    <!-- Aggregate Metrics Bar -->
+    <section class="metrics-section" id="metrics-section" aria-label="Aggregate Evaluation Metrics">
+      <div class="metrics-header">
+        <h2 class="section-title">Aggregate Evaluation Metrics (All 40 Synthetic Cases)</h2>
+        <span class="metrics-sub">Textbook Baseline vs Resource-Aware Decision System</span>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card metric-baseline-feas" id="metric-baseline-feas">
+          <div class="metric-label">Baseline Feasibility</div>
+          <div class="metric-value" id="val-baseline-feas">--%</div>
+          <div class="metric-sub" id="sub-baseline-feas">--/40 feasible at local site</div>
+        </div>
+
+        <div class="metric-card metric-ra-feas" id="metric-ra-feas">
+          <div class="metric-label">Resource-Aware Feasibility</div>
+          <div class="metric-value" id="val-ra-feas">--%</div>
+          <div class="metric-sub" id="sub-ra-feas">--/40 verified feasible</div>
+        </div>
+
+        <div class="metric-card metric-followup" id="metric-followup">
+          <div class="metric-label">High-Priority Follow-up Coverage</div>
+          <div class="metric-value" id="val-followup-cov">100%</div>
+          <div class="metric-sub">Resource-Aware 100% vs Baseline 0%</div>
+        </div>
+
+        <div class="metric-card metric-lang" id="metric-lang">
+          <div class="metric-label">Language Mismatch Detection</div>
+          <div class="metric-value" id="val-lang-mismatch">--%</div>
+          <div class="metric-sub" id="sub-lang-mismatch">-- cases required interpreter/safety</div>
+        </div>
+
+        <div class="metric-card metric-escalation" id="metric-escalation">
+          <div class="metric-label">Immediate Clinical Escalations</div>
+          <div class="metric-value" id="val-escalations">0</div>
+          <div class="metric-sub">0.0% (Local safe options available)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Selector Bar -->
+    <section class="case-bar-section" id="case-bar-section">
+      <div class="filter-chips" id="filter-chips">
+        <button class="filter-chip active" data-filter="all" id="filter-all">All Cases (40)</button>
+        <button class="filter-chip" data-filter="changed" id="filter-changed">Changed Only (14)</button>
+        <button class="filter-chip" data-filter="unchanged" id="filter-unchanged">Unchanged (26)</button>
+        <button class="filter-chip" data-filter="high" id="filter-high">High Urgency (16)</button>
+      </div>
+
+      <div class="selector-controls">
+        <button class="btn-nav" id="btn-prev-case" title="Previous Case (Left Arrow)">&larr; Prev Case</button>
+        <div class="dropdown-wrapper">
+          <label for="case-select" class="visually-hidden">Select Synthetic Case</label>
+          <select id="case-select" class="case-dropdown" aria-label="Select Synthetic Patient Case">
+            <option value="">Loading cases...</option>
+          </select>
+        </div>
+        <button class="btn-nav" id="btn-next-case" title="Next Case (Right Arrow)">Next Case &rarr;</button>
+      </div>
+
+      <!-- Active Case Summary Pill Bar -->
+      <div class="case-meta-bar" id="case-meta-bar">
+        <div class="meta-item">
+          <span class="meta-label">CASE ID:</span>
+          <span class="meta-val highlight" id="active-case-id">SYNTH-CASE-001</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">CONDITION:</span>
+          <span class="meta-val" id="active-condition">--</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">URGENCY:</span>
+          <span class="urgency-pill" id="active-urgency">MEDIUM</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">FACILITY:</span>
+          <span class="meta-val" id="active-site">--</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">PATIENT LANGUAGE:</span>
+          <span class="meta-val" id="active-language">--</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Comparison Grid (Exact Same Case) -->
+    <main class="comparison-grid" id="comparison-grid" aria-label="Side-by-side Care Option Comparison">
+      <!-- LEFT PANEL: Textbook / Baseline Method -->
+      <article class="panel panel-baseline" id="panel-baseline">
+        <div class="panel-header">
+          <div class="panel-tag baseline-tag">TEXTBOOK / BASELINE METHOD</div>
+          <div class="feasibility-badge" id="baseline-feasibility-badge">FEASIBLE</div>
+        </div>
+
+        <div class="panel-body">
+          <!-- 1. Recommendation -->
+          <div class="panel-card rec-card">
+            <div class="card-title">RECOMMENDATION</div>
+            <div class="rec-text" id="baseline-rec-text">Loading recommendation...</div>
+            <div class="card-caption">Gold-standard textbook clinical guideline protocol lookup</div>
+          </div>
+
+          <!-- 2. Resources Ignored -->
+          <div class="panel-card warning-card">
+            <div class="card-title">RESOURCES DELIBERATELY IGNORED</div>
+            <ul class="resources-ignored-list" id="baseline-resources-ignored">
+              <li>Local equipment stock & diagnostic point-of-care tools</li>
+              <li>Specialist physician coverage & physical availability</li>
+              <li>Medication inventory & cold chain refrigerated storage</li>
+              <li>Transport ambulances & road accessibility</li>
+              <li>Teleconsultation bandwidth & digital stability</li>
+              <li>Patient language compatibility & interpreter availability</li>
+              <li>Follow-up accountability, named owners & escalation timers</li>
+            </ul>
+          </div>
+
+          <!-- 3. Follow-Up Disposition -->
+          <div class="panel-card">
+            <div class="card-title">FOLLOW-UP DISPOSITION</div>
+            <div class="badge-status unassigned-badge">UNTRACKED</div>
+            <div class="card-text" id="baseline-followup-text">
+              Routine follow-up interval noted in guideline, but no named owner assigned, no due date calculated, and no escalation path defined.
+            </div>
+          </div>
+
+          <!-- 4. Language Safety -->
+          <div class="panel-card">
+            <div class="card-title">LANGUAGE SAFETY</div>
+            <div class="badge-status danger-sub-badge">IGNORED / UNVERIFIED</div>
+            <div class="card-text" id="baseline-language-text">
+              Patient primary language not verified against clinician. Interpreter requirements completely bypassed.
+            </div>
+          </div>
+
+          <!-- 5. Feasibility Evaluation -->
+          <div class="panel-card">
+            <div class="card-title">FACILITY FEASIBILITY EVALUATION</div>
+            <div class="card-text" id="baseline-feasibility-reason">
+              Evaluating facility resource availability...
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- RIGHT PANEL: Resource-Aware Method -->
+      <article class="panel panel-resource-aware" id="panel-resource-aware">
+        <div class="panel-header">
+          <div class="panel-tag ra-tag">RESOURCE-AWARE METHOD</div>
+          <div class="feasibility-badge" id="ra-feasibility-badge">100% FEASIBLE</div>
+        </div>
+
+        <div class="panel-body">
+          <!-- 1. Selected Option -->
+          <div class="panel-card rec-card">
+            <div class="card-title">SELECTED CARE OPTION</div>
+            <div class="rec-text" id="ra-rec-text">Loading selected care option...</div>
+            <div class="ladder-pill" id="ra-ladder-pill">Ladder Tier: Preferred</div>
+          </div>
+
+          <!-- 2. Reason Trail -->
+          <div class="panel-card">
+            <div class="card-title">REASON TRAIL & CONSTRAINT VERIFICATION</div>
+            <div class="reason-trail-box" id="ra-reason-trail">
+              <div class="trail-item">Loading constraint verification...</div>
+            </div>
+          </div>
+
+          <!-- 3. Blocked Options -->
+          <div class="panel-card" id="card-blocked-options">
+            <div class="card-title">BLOCKED HIGHER-TIER OPTIONS</div>
+            <div class="blocked-list" id="ra-blocked-list">
+              <span class="text-muted">None (Preferred option is feasible locally)</span>
+            </div>
+          </div>
+
+          <!-- 4. Follow-Up Accountability -->
+          <div class="panel-card">
+            <div class="card-title">FOLLOW-UP ACCOUNTABILITY (PHASE 5)</div>
+            <div class="badge-status tracked-badge">ACCOUNTABLE & TRACKED</div>
+            <div class="card-text" id="ra-followup-text">
+              Tracked follow-up task with assigned human owner, deterministic SLA due date, and automated escalation path.
+            </div>
+          </div>
+
+          <!-- 5. Escalation & Language Status -->
+          <div class="panel-card">
+            <div class="card-title">ESCALATION & LANGUAGE STATUS</div>
+            <div class="ra-dual-status">
+              <div class="status-subgroup">
+                <span class="subgroup-label">Escalation Path:</span>
+                <span class="subgroup-val" id="ra-escalation-val">Standard SLA Hierarchy</span>
+              </div>
+              <div class="status-subgroup">
+                <span class="subgroup-label">Language Safety:</span>
+                <span class="subgroup-val" id="ra-language-val">Directly Supported (en)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Feasibility Details -->
+          <div class="panel-card">
+            <div class="card-title">FACILITY RESOURCE VERIFICATION</div>
+            <div class="card-text" id="ra-feasibility-details">
+              Local equipment, medication stocks, and staff coverage verified.
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <!-- BOTTOM SECTION: What Changed and Why? -->
+    <section class="what-changed-section" id="what-changed-section" aria-label="What changed and why comparison">
+      <div class="what-changed-card" id="what-changed-card">
+        <div class="card-header-bar">
+          <div class="title-with-badge">
+            <span class="icon-divergence">🔄</span>
+            <h2 class="what-changed-title">What changed and why?</h2>
+          </div>
+          <span class="divergence-status-badge" id="divergence-status-badge">RECOMMENDATION ADAPTED</span>
+        </div>
+
+        <div class="what-changed-grid">
+          <div class="diff-block baseline-diff">
+            <span class="diff-label">Baseline (Textbook):</span>
+            <div class="diff-val" id="diff-baseline-rec">Specialist referral</div>
+          </div>
+
+          <div class="diff-arrow">&rarr;</div>
+
+          <div class="diff-block ra-diff">
+            <span class="diff-label">Resource-Aware (Adapted):</span>
+            <div class="diff-val" id="diff-ra-rec">Minimum-safe-fallback: Oral antihypertensive stabilization</div>
+          </div>
+        </div>
+
+        <div class="change-reason-container">
+          <div class="reason-label">EXACT CLINICAL / OPERATIONAL RATIONALE:</div>
+          <div class="reason-box" id="diff-reason-box">
+            Specialist coverage deficit: Endocrinologist unavailable + Emergency transport deficit: Ambulance unavailable
+          </div>
+          <div class="factor-tags" id="diff-factor-tags">
+            <!-- Dynamically populated tags -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer" id="app-footer">
+      <div class="footer-left">
+        <span class="footer-notice">Decision-support prototype — clinician sign-off required.</span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-policy">SYNTHETIC DATA — All patient records, facility registries, and operational events are synthetic.</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="comparer.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+{
+  "metadata": {
+    "title": "Curated Validation Cases Cohort for Clinician Simulation",
+    "version": "1.0.0",
+    "total_cases": 10,
+    "disclaimer": "These are simulated reviewer personas, not real clinical validation.",
+    "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+    "synthetic_data_notice": "Synthetic data only \u2014 no real patient data.",
+    "selection_rationale": "10 curated cases representing diverse clinical conditions, urgency levels, facility tiers, geographic settings, and language configurations."
+  },
+  "cases": [
+    {
+      "case_id": "SYNTH-CASE-001",
+      "condition": "condition_alpha",
+      "age_band": "51-65",
+      "population_group": "urban",
+      "site_id": "SITE-001",
+      "patient_language": "ta",
+      "urgency": "HIGH",
+      "travel_constraints": {
+        "next_tier_site": "SITE-001",
+        "travel_distance_km": 0.0,
+        "travel_time_minutes": 0,
+        "transport_available": true,
+        "connectivity_quality": "EXCELLENT",
+        "follow_up_teleconsult_possible": true,
+        "patient_language": "ta",
+        "preferred_language": "ta",
+        "interpreter_required": false
+      },
+      "connectivity": "High-speed fiber/VDSL connection; full HD video supported",
+      "language_profile": {
+        "primary_language": "ta",
+        "preferred_language": "ta",
+        "literacy_level": "high",
+        "interpreter_required": false,
+        "preferred_modality": "vernacular_text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-002",
+      "condition": "condition_beta",
+      "age_band": "18-35",
+      "population_group": "rural",
+      "site_id": "SITE-002",
+      "patient_language": "ta",
+      "urgency": "MEDIUM",
+      "travel_constraints": {
+        "next_tier_site": "SITE-005",
+        "travel_distance_km": 18.5,
+        "travel_time_minutes": 43,
+        "transport_available": true,
+        "connectivity_quality": "POOR",
+        "follow_up_teleconsult_possible": false,
+        "patient_language": "ta",
+        "preferred_language": "ta",
+        "interpreter_required": false
+      },
+      "connectivity": "Intermittent 2G cellular link; high packet loss",
+      "language_profile": {
+        "primary_language": "ta",
+        "preferred_language": "ta",
+        "literacy_level": "low",
+        "interpreter_required": false,
+        "preferred_modality": "vernacular_text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-003",
+      "condition": "condition_gamma",
+      "age_band": "18-35",
+      "population_group": "rural",
+      "site_id": "SITE-003",
+      "patient_language": "ta",
+      "urgency": "CRITICAL",
+      "travel_constraints": {
+        "next_tier_site": "SITE-005",
+        "travel_distance_km": 24.0,
+        "travel_time_minutes": 51,
+        "transport_available": true,
+        "connectivity_quality": "GOOD",
+        "follow_up_teleconsult_possible": true,
+        "patient_language": "ta",
+        "preferred_language": "ta",
+        "interpreter_required": true
+      },
+      "connectivity": "4G mobile broadband; adequate for video with occasional jitter",
+      "language_profile": {
+        "primary_language": "ta",
+        "preferred_language": "ta",
+        "literacy_level": "low",
+        "interpreter_required": true,
+        "preferred_modality": "vernacular_text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-004",
+      "condition": "condition_delta",
+      "age_band": "51-65",
+      "population_group": "rural",
+      "site_id": "SITE-004",
+      "patient_language": "en",
+      "urgency": "LOW",
+      "travel_constraints": {
+        "next_tier_site": "SITE-003",
+        "travel_distance_km": 32.0,
+        "travel_time_minutes": 201,
+        "transport_available": false,
+        "connectivity_quality": "MODERATE",
+        "follow_up_teleconsult_possible": true,
+        "patient_language": "en",
+        "preferred_language": "en",
+        "interpreter_required": false
+      },
+      "connectivity": "Satellite broadband link; stable throughput with noticeable propagation latency",
+      "language_profile": {
+        "primary_language": "en",
+        "preferred_language": "en",
+        "literacy_level": "high",
+        "interpreter_required": false,
+        "preferred_modality": "text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-005",
+      "condition": "condition_epsilon",
+      "age_band": "65+",
+      "population_group": "urban",
+      "site_id": "SITE-005",
+      "patient_language": "ta",
+      "urgency": "MEDIUM",
+      "travel_constraints": {
+        "next_tier_site": "SITE-001",
+        "travel_distance_km": 21.0,
+        "travel_time_minutes": 38,
+        "transport_available": true,
+        "connectivity_quality": "EXCELLENT",
+        "follow_up_teleconsult_possible": true,
+        "patient_language": "ta",
+        "preferred_language": "ta",
+        "interpreter_required": false
+      },
+      "connectivity": "High-speed fiber/VDSL connection; full HD video supported",
+      "language_profile": {
+        "primary_language": "ta",
+        "preferred_language": "ta",
+        "literacy_level": "low",
+        "interpreter_required": false,
+        "preferred_modality": "vernacular_text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-006",
+      "condition": "condition_alpha",
+      "age_band": "18-35",
+      "population_group": "urban",
+      "site_id": "SITE-006",
+      "patient_language": "en",
+      "urgency": "HIGH",
+      "travel_constraints": {
+        "next_tier_site": "SITE-001",
+        "travel_distance_km": 8.5,
+        "travel_time_minutes": 23,
+        "transport_available": true,
+        "connectivity_quality": "EXCELLENT",
+        "follow_up_teleconsult_possible": true,
+        "patient_language": "en",
+        "preferred_language": "en",
+        "interpreter_required": false
+      },
+      "connectivity": "High-speed fiber/VDSL connection; full HD video supported",
+      "language_profile": {
+        "primary_language": "en",
+        "preferred_language": "en",
+        "literacy_level": "functional",
+        "interpreter_required": false,
+        "preferred_modality": "text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-007",
+      "condition": "condition_beta",
+      "age_band": "65+",
+      "population_group": "urban",
+      "site_id": "SITE-001",
+      "patient_language": "en",
+      "urgency": "MEDIUM",
+      "travel_constraints": {
+        "next_tier_site": "SITE-001",
+        "travel_distance_km": 0.0,
+        "travel_time_minutes": 0,
+        "transport_available": true,
+        "connectivity_quality": "EXCELLENT",
+        "follow_up_teleconsult_possible": true,
+        "patient_language": "en",
+        "preferred_language": "en",
+        "interpreter_required": false
+      },
+      "connectivity": "High-speed fiber/VDSL connection; full HD video supported",
+      "language_profile": {
+        "primary_language": "en",
+        "preferred_language": "en",
+        "literacy_level": "functional",
+        "interpreter_required": false,
+        "preferred_modality": "text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-008",
+      "condition": "condition_gamma",
+      "age_band": "18-35",
+      "population_group": "rural",
+      "site_id": "SITE-002",
+      "patient_language": "ta",
+      "urgency": "CRITICAL",
+      "travel_constraints": {
+        "next_tier_site": "SITE-005",
+        "travel_distance_km": 18.5,
+        "travel_time_minutes": 44,
+        "transport_available": true,
+        "connectivity_quality": "POOR",
+        "follow_up_teleconsult_possible": false,
+        "patient_language": "ta",
+        "preferred_language": "ta",
+        "interpreter_required": true
+      },
+      "connectivity": "Intermittent 2G cellular link; high packet loss",
+      "language_profile": {
+        "primary_language": "ta",
+        "preferred_language": "ta",
+        "literacy_level": "high",
+        "interpreter_required": true,
+        "preferred_modality": "vernacular_text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-009",
+      "condition": "condition_delta",
+      "age_band": "51-65",
+      "population_group": "rural",
+      "site_id": "SITE-003",
+      "patient_language": "en",
+      "urgency": "LOW",
+      "travel_constraints": {
+        "next_tier_site": "SITE-005",
+        "travel_distance_km": 24.0,
+        "travel_time_minutes": 48,
+        "transport_available": true,
+        "connectivity_quality": "MODERATE",
+        "follow_up_teleconsult_possible": true,
+        "patient_language": "en",
+        "preferred_language": "en",
+        "interpreter_required": false
+      },
+      "connectivity": "4G mobile broadband; adequate for video with occasional jitter",
+      "language_profile": {
+        "primary_language": "en",
+        "preferred_language": "en",
+        "literacy_level": "low",
+        "interpreter_required": false,
+        "preferred_modality": "text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    },
+    {
+      "case_id": "SYNTH-CASE-010",
+      "condition": "condition_epsilon",
+      "age_band": "51-65",
+      "population_group": "rural",
+      "site_id": "SITE-004",
+      "patient_language": "ta",
+      "urgency": "MEDIUM",
+      "travel_constraints": {
+        "next_tier_site": "SITE-003",
+        "travel_distance_km": 32.0,
+        "travel_time_minutes": 205,
+        "transport_available": false,
+        "connectivity_quality": "MODERATE",
+        "follow_up_teleconsult_possible": true,
+        "patient_language": "ta",
+        "preferred_language": "ta",
+        "interpreter_required": true
+      },
+      "connectivity": "Satellite broadband link; stable throughput with noticeable propagation latency",
+      "language_profile": {
+        "primary_language": "ta",
+        "preferred_language": "ta",
+        "literacy_level": "functional",
+        "interpreter_required": true,
+        "preferred_modality": "vernacular_text"
+      },
+      "synthetic": true,
+      "governance_notice": "Decision-support prototype \u2014 clinician sign-off required.",
+      "synthetic_data_notice": "Synthetic data only \u2014 no real patient data."
+    }
+  ]
+}

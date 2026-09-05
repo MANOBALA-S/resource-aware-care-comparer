@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resource-Aware Care Option Comparer — Main Demonstration</title>
+  <meta name="description" content="Master demonstration landing page for the Resource-Aware Care Option Comparer teleconsultation decision-support prototype." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .landing-hero {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.25) 0%, rgba(15, 23, 42, 0.75) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .hero-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .warning-pill {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fbbf24;
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .governance-pill {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      color: #93c5fd;
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-title {
+      font-size: 2.75rem;
+      font-weight: 800;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 0%, #93c5fd 60%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 750px;
+      line-height: 1.6;
+      margin: 0 auto;
+    }
+
+    /* 4 Major Action Cards Grid */
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .action-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.25rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--teal-accent);
+      box-shadow: 0 12px 30px rgba(6, 182, 212, 0.15);
+    }
+
+    .action-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--teal-accent));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .action-card:hover::before {
+      opacity: 1;
+    }
+
+    .action-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .action-icon {
+      font-size: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .action-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .action-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .btn-primary-action {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-primary-action:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+    }
+
+    .btn-teal-action {
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+    }
+
+    .btn-teal-action:hover {
+      background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.55);
+    }
+
+    .btn-purple-action {
+      background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(147, 51, 234, 0.35);
+    }
+
+    .btn-purple-action:hover {
+      background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+      box-shadow: 0 6px 20px rgba(147, 51, 234, 0.55);
+    }
+
+    .btn-emerald-action {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-emerald-action:hover {
+      background: linear-gradient(135deg, #047857 0%, #059669 100%);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.55);
+    }
+
+    /* Demonstration Details Section */
+    .demo-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+
+    .section-title-large {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .kpi-stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .kpi-chip {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .kpi-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #38bdf8;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .kpi-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Evaluation Summary Box */
+    .eval-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .eval-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .eval-card-title {
+      font-weight: 700;
+      color: #ffffff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .eval-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      padding: 0.35rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+
+    .eval-row:last-child {
+      border-bottom: none;
+    }
+
+    .eval-key {
+      color: var(--text-muted);
+    }
+
+    .eval-val {
+      font-weight: 600;
+      color: #f3f4f6;
+    }
+
+    /* Footer Disclaimers */
+    .app-footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Mandatory Global Governance Bar -->
+    <div class="governance-bar" style="background: rgba(17, 24, 39, 0.95); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 10px; padding: 0.65rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: #fbbf24; font-size: 0.85rem;">
+        <span>⚠️</span>
+        <span>SYNTHETIC DATA — FOR DEMONSTRATION ONLY</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #93c5fd; font-size: 0.85rem;">
+        <span>🛡️</span>
+        <span>Decision-support prototype — clinician sign-off required.</span>
+      </div>
+    </div>
+
+    <!-- Hero Section: Resource-Aware Care Option Comparer -->
+    <header class="landing-hero" id="hero-section">
+      <div class="hero-badge-row">
+        <span class="warning-pill">⚠️ SYNTHETIC DATA — FOR DEMONSTRATION ONLY</span>
+        <span class="governance-pill">🛡️ Decision-support prototype — clinician sign-off required.</span>
+      </div>
+
+      <h1 class="hero-title">Resource-Aware Care Option Comparer</h1>
+      <p class="hero-subtitle">
+        Bridging the divide between textbook clinical practice guidelines and local resource realities across peripheral healthcare facilities in English and Tamil (தமிழ்).
+      </p>
+
+      <!-- 4 Primary Navigation Action Buttons -->
+      <div class="action-grid" style="width: 100%; margin-top: 1.5rem;">
+        
+        <!-- Button 1: Clinician View -->
+        <article class="action-card">
+          <div class="action-card-header">
+            <div class="action-icon" aria-hidden="true">🩺</div>
+            <div style="text-align: left;">
+              <h2 class="action-title">Clinician View</h2>
+              <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 600;">Teleconsult Decision Screen</span>
+            </div>
+          </div>
+          <p class="action-desc" style="text-align: left;">
+            Interactive teleconsultation workspace showing verified site resources, transparent clinical reason trails, and dynamic English/Tamil translation.
+          </p>
+          <a href="/ui/clinician/index.html" class="action-btn btn-primary-action" id="btn-clinician-view">
+            <span>Launch Clinician View</span>
+            <span>→</span>
+          </a>
+        </article>
+
+        <!-- Button 2: Follow-up Queue -->
+        <article class="action-card">
+          <div class="action-card-header">
+            <div class="action-icon" aria-hidden="true">📋</div>
+            <div style="text-align: left;">
+              <h2 class="action-title">Follow-up Queue</h2>
+              <span style="font-size: 0.8rem; color: #06b6d4; font-weight: 600;">Accountability Dashboard</span>
+            </div>
+          </div>
+          <p class="action-desc" style="text-align: left;">
+            Operational coordinator queue with named task owners, calculated SLA due dates, overdue alert timers, and hierarchical escalation workflows.
+          </p>
+          <a href="/ui/followup/index.html" class="action-btn btn-teal-action" id="btn-followup-queue">
+            <span>Launch Follow-up Queue</span>
+            <span>→</span>
+          </a>
+        </article>
+
+        <!-- Button 3: Baseline vs Resource-Aware -->
+        <article class="action-card">
+          <div class="action-card-header">
+            <div class="action-icon" aria-hidden="true">🔄</div>
+            <div style="text-align: left;">
+              <h2 class="action-title">Baseline vs Resource-Aware</h2>
+              <span style="font-size: 0.8rem; color: #a855f7; font-weight: 600;">Side-by-Side Comparison</span>
+            </div>
+          </div>
+          <p class="action-desc" style="text-align: left;">
+            Direct comparative view evaluating identical synthetic patient cases against both unconstrained textbook protocols and resource-aware adaptations.
+          </p>
+          <a href="/ui/comparer/index.html" class="action-btn btn-purple-action" id="btn-option-comparer">
+            <span>Launch Option Comparer</span>
+            <span>→</span>
+          </a>
+        </article>
+
+        <!-- Button 4: Evaluation -->
+        <article class="action-card">
+          <div class="action-card-header">
+            <div class="action-icon" aria-hidden="true">📊</div>
+            <div style="text-align: left;">
+              <h2 class="action-title">Evaluation</h2>
+              <span style="font-size: 0.8rem; color: #10b981; font-weight: 600;">Disparity & Clinical Audits</span>
+            </div>
+          </div>
+          <p class="action-desc" style="text-align: left;">
+            Comprehensive empirical metrics covering Phase 12 population disparity analysis and Phase 13 simulated clinician validation (4.51 / 5.0).
+          </p>
+          <a href="#evaluation-section" class="action-btn btn-emerald-action" id="btn-evaluation-view">
+            <span>View Evaluation Results</span>
+            <span>↓</span>
+          </a>
+        </article>
+
+      </div>
+    </header>
+
+    <!-- Section 2: Synthetic Data Demonstration -->
+    <section class="demo-section" id="synthetic-demo-section">
+      <div class="section-header">
+        <h2 class="section-title-large">
+          <span>🧪</span>
+          <span>Synthetic Data Demonstration Overview</span>
+        </h2>
+        <span class="warning-pill">SYNTHETIC DATA — FOR DEMONSTRATION ONLY</span>
+      </div>
+
+      <p style="color: var(--text-muted); line-height: 1.6;">
+        This prototype demonstrates teleconsultation decision-support across an entirely synthetic dataset engineered to capture the operational constraints of peripheral healthcare delivery. No protected health information (PHI) or real patient records were ingested.
+      </p>
+
+      <!-- Key Performance Metrics Row -->
+      <div class="kpi-stat-row">
+        <div class="kpi-chip">
+          <div class="kpi-num">40</div>
+          <div class="kpi-label">Synthetic Cases (20 Rural / 20 Urban)</div>
+        </div>
+        <div class="kpi-chip">
+          <div class="kpi-num">6</div>
+          <div class="kpi-label">Healthcare Facility Tiers</div>
+        </div>
+        <div class="kpi-chip">
+          <div class="kpi-num">100%</div>
+          <div class="kpi-label">Resource-Aware Feasibility (vs 65% Base)</div>
+        </div>
+        <div class="kpi-chip">
+          <div class="kpi-num">100%</div>
+          <div class="kpi-label">High-Priority Follow-Up SLA Coverage</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: In-Depth Evaluation Results (Phase 12 & Phase 13) -->
+    <section class="demo-section" id="evaluation-section">
+      <div class="section-header">
+        <h2 class="section-title-large">
+          <span>📈</span>
+          <span>Evaluation Summary & Benchmark Results</span>
+        </h2>
+        <span class="governance-pill">Phase 12 Disparity + Phase 13 Validation</span>
+      </div>
+
+      <div class="eval-overview-grid">
+        
+        <!-- Box 1: Geographic & Demographic Disparities (Phase 12) -->
+        <div class="eval-card">
+          <h3 class="eval-card-title">
+            <span>🗺️</span>
+            <span>Population Bias & Disparity Analysis (Phase 12)</span>
+          </h3>
+          <div class="eval-row">
+            <span class="eval-key">Rural Baseline Feasibility:</span>
+            <span class="eval-val" style="color: #ef4444;">55.0% (11/20 cases)</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Rural Resource-Aware Feasibility:</span>
+            <span class="eval-val" style="color: #10b981;">100.0% (Deficit Eliminated)</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Urban Resource-Aware Feasibility:</span>
+            <span class="eval-val" style="color: #10b981;">100.0% (20/20 cases)</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Rural Language Escalation Rate:</span>
+            <span class="eval-val">55.0% (Missing sub-center interpreters)</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Rural Mean Travel Transit Time:</span>
+            <span class="eval-val">94.60 min (vs 35.15 min Urban)</span>
+          </div>
+        </div>
+
+        <!-- Box 2: Simulated Clinician Validation (Phase 13) -->
+        <div class="eval-card">
+          <h3 class="eval-card-title">
+            <span>🩺</span>
+            <span>Simulated Clinician Validation (Phase 13)</span>
+          </h3>
+          <div class="eval-row">
+            <span class="eval-key">Overall Validation Score:</span>
+            <span class="eval-val" style="color: #38bdf8;">4.51 / 5.0 (Exemplary Grade)</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Dr. Aruna Sundaram (Primary Care):</span>
+            <span class="eval-val">4.86 / 5.0</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Dr. Chellappa Maran (Rural Health):</span>
+            <span class="eval-val">4.51 / 5.0</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Dr. Priya Venkatesh (Teleconsult):</span>
+            <span class="eval-val">4.43 / 5.0</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Dr. K. R. Nambiar (Patient Safety):</span>
+            <span class="eval-val">4.58 / 5.0</span>
+          </div>
+          <div class="eval-row">
+            <span class="eval-key">Dr. Meenakshi Ramanathan (Language):</span>
+            <span class="eval-val">4.18 / 5.0</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; margin-top: 0.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <span style="font-size: 0.9rem; color: var(--text-muted);">View full empirical evaluation artifacts:</span>
+        <div style="display: flex; gap: 0.75rem;">
+          <a href="/ui/comparer/index.html" class="nav-link" style="color: #38bdf8; text-decoration: none; font-size: 0.85rem; font-weight: 600;">📊 Aggregate Comparer Metrics →</a>
+          <a href="/docs" class="nav-link" style="color: #38bdf8; text-decoration: none; font-size: 0.85rem; font-weight: 600;">📖 Interactive API Documentation →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Disclaimers -->
+    <footer class="app-footer">
+      <div>
+        <strong style="color: #fbbf24;">SYNTHETIC DATA — FOR DEMONSTRATION ONLY</strong>
+      </div>
+      <div>
+        <strong>Decision-support prototype — clinician sign-off required.</strong>
+      </div>
+      <p style="max-width: 800px; margin: 0.5rem auto; font-size: 0.8rem; color: #64748b;">
+        This prototype is intended for demonstration and evaluation and requires clinical, regulatory, security, and operational validation before real-world deployment.
+      </p>
+    </footer>
+
+  </div>
+</body>
+</html>

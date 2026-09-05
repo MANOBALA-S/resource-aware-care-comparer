@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resource-Aware Care Option Comparer — Clinician Screen</title>
+  <meta name="description" content="Clinician teleconsultation review screen for resource-aware care option comparison, reason trail evaluation, and follow-up tracking.">
+  
+  <!-- Modern Fonts: Inter, Outfit, and Noto Sans Tamil for authentic vernacular rendering -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="clinician.css">
+</head>
+<body data-lang="en">
+  <!-- App Container -->
+  <div class="app-container">
+
+    <!-- Top Navigation & Governance Header -->
+    <header class="app-header" id="main-header">
+      <div class="header-branding">
+        <div class="header-icon" aria-hidden="true">🩺</div>
+        <div>
+          <h1 class="header-title" id="header-app-title">Resource-Aware Care Option Comparer</h1>
+          <p class="header-subtitle" id="header-subtitle-text">Clinician Teleconsultation Decision-Support Screen</p>
+        </div>
+      </div>
+
+      <!-- Prominent Governance Disclaimer Badges -->
+      <div style="display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-end;">
+        <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); color: #fbbf24; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px;">
+          SYNTHETIC DATA — FOR DEMONSTRATION ONLY
+        </div>
+        <div class="governance-badge" id="governance-disclaimer" role="note" aria-label="Clinical governance notice">
+          <span class="pulse-dot"></span>
+          <span id="governance-text">Decision-support prototype — clinician sign-off required.</span>
+        </div>
+      </div>
+
+      <!-- Language Toggle (English | தமிழ்) -->
+      <div class="language-controls" role="region" aria-label="Language selection">
+        <div class="lang-switch-container">
+          <button id="lang-btn-en" class="lang-btn active" type="button" aria-pressed="true" onclick="setLanguage('en')">
+            English
+          </button>
+          <span class="lang-separator">|</span>
+          <button id="lang-btn-ta" class="lang-btn" type="button" aria-pressed="false" onclick="setLanguage('ta')">
+            தமிழ்
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="header-nav-links" style="display: flex; gap: 0.5rem; align-items: center;">
+        <a href="/ui/followup/index.html" class="nav-link" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; font-weight: 600; padding: 0.35rem 0.65rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-surface);">📋 Follow-Up Queue</a>
+        <a href="/ui/comparer/index.html" class="nav-link" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; font-weight: 600; padding: 0.35rem 0.65rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-surface);">🔄 Option Comparer</a>
+      </div>
+    </header>
+
+    <!-- Case Selection Toolbar -->
+    <section class="toolbar-section" aria-label="Case selection bar">
+      <div class="toolbar-card">
+        <div class="case-select-group">
+          <label for="case-selector" class="control-label" id="label-select-case">Select Synthetic Patient Case:</label>
+          <div class="select-wrapper">
+            <select id="case-selector" aria-label="Synthetic patient case selector">
+              <option value="" disabled selected>Loading synthetic patient cases...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="toolbar-actions">
+          <button id="btn-refresh-case" class="btn-primary" type="button" onclick="evaluateSelectedCase()">
+            <span class="btn-icon">⚡</span>
+            <span id="btn-re-evaluate-text">Evaluate Recommendations</span>
+          </button>
+          <button id="btn-test-escalation" class="btn-secondary" type="button" onclick="toggleSimulatedExhaustion()">
+            <span class="btn-icon">⚠️</span>
+            <span id="btn-sim-escalation-text">Simulate Option Exhaustion</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Safety Alerts Container (Dynamic ESCALATE IMMEDIATELY & LANGUAGE ESCALATION REQUIRED) -->
+    <div id="safety-alerts-container" class="safety-alerts-container" aria-live="assertive" role="alert">
+      <!-- Injected dynamically when safety conditions trigger -->
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-grid">
+
+      <!-- LEFT COLUMN: Patient Profile & Local Site Resources -->
+      <div class="grid-column column-left">
+
+        <!-- 1. Patient Section Card -->
+        <section class="panel-card" id="patient-section-card" aria-labelledby="heading-patient-section">
+          <div class="panel-header">
+            <div class="panel-header-title">
+              <span class="panel-icon">👤</span>
+              <h2 id="heading-patient-section">Patient Case Profile</h2>
+            </div>
+            <span id="patient-urgency-badge" class="badge badge-urgency">URGENCY</span>
+          </div>
+
+          <div class="panel-body">
+            <div class="data-grid-2col">
+              <div class="data-item">
+                <span class="data-label" id="label-case-id">Case ID</span>
+                <span class="data-value highlight" id="patient-case-id">—</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label" id="label-condition">Condition</span>
+                <span class="data-value highlight-condition" id="patient-condition">—</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label" id="label-age-band">Age Band</span>
+                <span class="data-value" id="patient-age-band">—</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label" id="label-pop-group">Population Group</span>
+                <span class="data-value" id="patient-population-group">—</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label" id="label-patient-lang">Patient Language</span>
+                <span class="data-value lang-chip" id="patient-language-val">—</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label" id="label-site">Facility Site</span>
+                <span class="data-value" id="patient-site-name">—</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Resource Section Card -->
+        <section class="panel-card" id="resource-section-card" aria-labelledby="heading-resource-section">
+          <div class="panel-header">
+            <div class="panel-header-title">
+              <span class="panel-icon">🏥</span>
+              <h2 id="heading-resource-section">Local Facility Resources</h2>
+            </div>
+            <span id="site-tier-badge" class="badge badge-tier">CLINIC TIER</span>
+          </div>
+
+          <div class="panel-body">
+            <!-- Equipment -->
+            <div class="resource-block">
+              <div class="resource-block-header">
+                <span class="res-icon">🔬</span>
+                <h3 id="label-equipment">Diagnostic Equipment Available</h3>
+              </div>
+              <div id="equipment-list" class="chip-container">
+                <span class="empty-state">Loading facility equipment...</span>
+              </div>
+            </div>
+
+            <!-- Medications Stock -->
+            <div class="resource-block">
+              <div class="resource-block-header">
+                <span class="res-icon">💊</span>
+                <h3 id="label-medications">In-Stock Formulary & Medications</h3>
+              </div>
+              <div id="medication-list" class="chip-container">
+                <span class="empty-state">Loading dispensary inventory...</span>
+              </div>
+            </div>
+
+            <!-- Specialists & Logistics Grid -->
+            <div class="logistics-grid">
+              <div class="logistics-item">
+                <span class="logistics-label" id="label-specialists">Specialists On-Call</span>
+                <span class="logistics-value" id="specialists-val">—</span>
+              </div>
+              <div class="logistics-item">
+                <span class="logistics-label" id="label-transport">Emergency Transport</span>
+                <span class="logistics-value" id="transport-val">—</span>
+              </div>
+              <div class="logistics-item">
+                <span class="logistics-label" id="label-connectivity">Teleconsult Connectivity</span>
+                <span class="logistics-value" id="connectivity-val">—</span>
+              </div>
+              <div class="logistics-item">
+                <span class="logistics-label" id="label-cold-chain">Cold Chain Storage</span>
+                <span class="logistics-value" id="cold-chain-val">—</span>
+              </div>
+              <div class="logistics-item full-width">
+                <span class="logistics-label" id="label-interpreter">Interpreter & Language Support</span>
+                <span class="logistics-value" id="interpreter-val">—</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Recommendation Engine & Follow-Up Tracker -->
+      <div class="grid-column column-right">
+
+        <!-- 3. Recommendation Section Card -->
+        <section class="panel-card recommendation-card" id="recommendation-section-card" aria-labelledby="heading-recommendation-section">
+          <div class="panel-header">
+            <div class="panel-header-title">
+              <span class="panel-icon">⚖️</span>
+              <h2 id="heading-recommendation-section">Resource-Aware Recommendation</h2>
+            </div>
+            <div class="ladder-pill" id="ladder-level-pill">LADDER LEVEL</div>
+          </div>
+
+          <div class="panel-body">
+            <!-- Selected Care Option Box -->
+            <div class="recommendation-hero" id="recommendation-hero-box">
+              <div class="recommendation-status-bar">
+                <span class="status-indicator-tag" id="feasibility-status-tag">FEASIBLE LOCAL OPTION</span>
+                <span class="escalation-alert-tag" id="escalation-requirement-tag">NO ESCALATION</span>
+              </div>
+              <p class="recommendation-text" id="selected-care-option-text">
+                Select a case to evaluate care options matching local site resources.
+              </p>
+            </div>
+
+            <!-- Transparent Reason Trail Section -->
+            <div class="reason-trail-wrapper">
+              <div class="section-subheading">
+                <span class="sub-icon">🔍</span>
+                <h3 id="label-transparent-trail">Transparent Clinical Reason Trail</h3>
+              </div>
+              <p class="trail-help-text" id="trail-help-text">
+                Inspectable step-by-step verification comparing requirements against actual site capabilities:
+              </p>
+
+              <!-- Checkmarked Reason Steps -->
+              <div id="reason-steps-container" class="reason-steps-container">
+                <!-- Generated by JS: e.g. ✓ Local clinician available, ✗ Specialist unavailable -->
+              </div>
+
+              <!-- Blocked Tiers Accordion/Callout (if any) -->
+              <div id="blocked-options-callout" class="blocked-options-callout hidden">
+                <h4 id="label-blocked-options-title">Blocked Higher Ladder Tiers & Reasons:</h4>
+                <ul id="blocked-options-list"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Follow-Up Section Card -->
+        <section class="panel-card followup-card" id="followup-section-card" aria-labelledby="heading-followup-section">
+          <div class="panel-header">
+            <div class="panel-header-title">
+              <span class="panel-icon">📋</span>
+              <h2 id="heading-followup-section">Accountable Follow-up & Escalation</h2>
+            </div>
+            <span id="followup-status-badge" class="badge badge-status">PENDING</span>
+          </div>
+
+          <div class="panel-body">
+            <div class="followup-details-grid">
+              <div class="followup-item">
+                <span class="followup-label" id="label-followup-owner">Named Task Owner</span>
+                <span class="followup-value owner-val" id="followup-owner-val">—</span>
+              </div>
+              <div class="followup-item">
+                <span class="followup-label" id="label-followup-due">SLA Due Date & Time</span>
+                <span class="followup-value due-val" id="followup-due-val">—</span>
+              </div>
+              <div class="followup-item full-width">
+                <span class="followup-label" id="label-followup-path">Escalation Ladder Hierarchy</span>
+                <div class="escalation-ladder-steps" id="followup-path-steps">
+                  <span class="empty-state">No escalation path initialized</span>
+                </div>
+              </div>
+              <div class="followup-item full-width">
+                <span class="followup-label" id="label-followup-desc">Action Item Instructions</span>
+                <p class="followup-instructions" id="followup-description-val">—</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Footer Disclaimers -->
+    <footer class="app-footer">
+      <div class="footer-notices">
+        <p class="notice-governance" id="footer-governance">
+          ⚠️ <strong>Decision-Support Prototype:</strong> Clinician sign-off required before implementing any recommendation.
+        </p>
+        <p class="notice-synthetic" id="footer-synthetic">
+          🔒 <strong>Synthetic Operational Data:</strong> No real patient data is used. All clinical cases, sites, and protocols are synthetic.
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="clinician.js"></script>
+</body>
+</html>

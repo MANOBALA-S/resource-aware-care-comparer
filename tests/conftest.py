@@ -30,3 +30,12 @@ def client() -> Generator[TestClient, None, None]:
 def settings() -> SystemSettings:
     """Settings fixture providing current system settings."""
     return get_settings()
+
+
+@pytest.fixture
+def test_db(tmp_path: Path) -> Path:
+    """Provide a fresh, isolated temporary SQLite database path."""
+    from src.followup.repository import init_db
+    db_file = tmp_path / "test_followup.db"
+    init_db(db_file)
+    return db_file

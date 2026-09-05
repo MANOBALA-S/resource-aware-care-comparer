@@ -1,0 +1,104 @@
+{
+  "total_cases_evaluated": 40,
+  "metric_1_baseline_feasible_pct": 65.0,
+  "metric_1_resource_aware_feasible_pct": 100.0,
+  "metric_1_baseline_feasible_count": 26,
+  "metric_1_resource_aware_feasible_count": 40,
+  "metric_2_total_high_priority_cases": 16,
+  "metric_2_baseline_high_priority_tracked_pct": 0.0,
+  "metric_2_resource_aware_high_priority_tracked_pct": 100.0,
+  "metric_3_recommendations_changed_count": 14,
+  "metric_3_recommendations_changed_pct": 35.0,
+  "metric_4_language_mismatches_detected_count": 29,
+  "metric_4_language_mismatches_pct": 72.5,
+  "metric_5_immediate_escalations_count": 0,
+  "metric_5_immediate_escalations_pct": 0.0,
+  "breakdown_by_ladder_level": {
+    "preferred": 26,
+    "resource_adapted_alternative": 10,
+    "minimum_safe_fallback": 4
+  },
+  "breakdown_by_site": {
+    "SITE-001": {
+      "total_cases": 7,
+      "baseline_feasible": 7,
+      "resource_aware_feasible": 7,
+      "changed_recommendations": 0,
+      "escalations": 0
+    },
+    "SITE-002": {
+      "total_cases": 7,
+      "baseline_feasible": 1,
+      "resource_aware_feasible": 7,
+      "changed_recommendations": 6,
+      "escalations": 0
+    },
+    "SITE-003": {
+      "total_cases": 7,
+      "baseline_feasible": 5,
+      "resource_aware_feasible": 7,
+      "changed_recommendations": 2,
+      "escalations": 0
+    },
+    "SITE-004": {
+      "total_cases": 7,
+      "baseline_feasible": 6,
+      "resource_aware_feasible": 7,
+      "changed_recommendations": 1,
+      "escalations": 0
+    },
+    "SITE-005": {
+      "total_cases": 6,
+      "baseline_feasible": 6,
+      "resource_aware_feasible": 6,
+      "changed_recommendations": 0,
+      "escalations": 0
+    },
+    "SITE-006": {
+      "total_cases": 6,
+      "baseline_feasible": 1,
+      "resource_aware_feasible": 6,
+      "changed_recommendations": 5,
+      "escalations": 0
+    }
+  },
+  "breakdown_by_condition": {
+    "condition_alpha": {
+      "total_cases": 8,
+      "baseline_feasible": 4,
+      "resource_aware_feasible": 8,
+      "changed_recommendations": 4,
+      "escalations": 0
+    },
+    "condition_beta": {
+      "total_cases": 8,
+      "baseline_feasible": 4,
+      "resource_aware_feasible": 8,
+      "changed_recommendations": 4,
+      "escalations": 0
+    },
+    "condition_gamma": {
+      "total_cases": 8,
+      "baseline_feasible": 4,
+      "resource_aware_feasible": 8,
+      "changed_recommendations": 4,
+      "escalations": 0
+    },
+    "condition_delta": {
+      "total_cases": 8,
+      "baseline_feasible": 8,
+      "resource_aware_feasible": 8,
+      "changed_recommendations": 0,
+      "escalations": 0
+    },
+    "condition_epsilon": {
+      "total_cases": 8,
+      "baseline_feasible": 6,
+      "resource_aware_feasible": 8,
+      "changed_recommendations": 2,
+      "escalations": 0
+    }
+  },
+  "governance_notice": "Decision-support prototype — clinician sign-off required.",
+  "synthetic_data_notice": "Synthetic data only — no real patient data."
+}

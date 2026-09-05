@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "title": "Deterministic Urgency SLA and Escalation Timing Rules",
+    "version": "1.0.0",
+    "synthetic_data_notice": "Synthetic data only — no real patient data.",
+    "governance_notice": "Decision-support prototype — clinician sign-off required.",
+    "description": "Deterministic follow-up window SLAs and escalation delay rules keyed by clinical urgency."
+  },
+  "rules": {
+    "CRITICAL": {
+      "due_hours": 1,
+      "escalation_hours": 1,
+      "default_escalation_path": [
+        "Local Health Worker",
+        "Site Coordinator",
+        "Regional Clinical Supervisor",
+        "Emergency / Human Clinical Escalation"
+      ]
+    },
+    "HIGH": {
+      "due_hours": 24,
+      "escalation_hours": 4,
+      "default_escalation_path": [
+        "Local Health Worker",
+        "Site Coordinator",
+        "Regional Clinical Supervisor",
+        "Emergency / Human Clinical Escalation"
+      ]
+    },
+    "MEDIUM": {
+      "due_hours": 72,
+      "escalation_hours": 24,
+      "default_escalation_path": [
+        "Local Health Worker",
+        "Site Coordinator",
+        "Regional Clinical Supervisor"
+      ]
+    },
+    "LOW": {
+      "due_hours": 168,
+      "escalation_hours": 48,
+      "default_escalation_path": [
+        "Local Health Worker",
+        "Site Coordinator"
+      ]
+    }
+  }
+}

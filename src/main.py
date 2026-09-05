@@ -12,10 +12,16 @@ from typing import Any, AsyncGenerator, Dict
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 
+from src.api.routes_clinician import router as clinician_router
+from src.api.routes_comparer import router as comparer_router
+from src.api.routes_followup import router as followup_router
 from src.api.routes_health import router as health_router
-from src.config import get_settings
+from src.api.routes_language import router as language_router
+from src.config import PROJECT_ROOT, get_settings
+from src.followup.repository import init_db
 
 logging.basicConfig(
     level=logging.INFO,
@@ -50,6 +56,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     logger.info("Loaded active languages: %s", [l.code for l in settings.languages if l.enabled])
     logger.info("Loaded urgency tiers: %s", list(settings.urgency_levels.keys()))
     logger.info("Loaded escalation levels: %s", list(settings.escalation_levels.keys()))
+    init_db()
+    logger.info("Follow-up SQLite database initialized")
     yield
     logger.info("Shutting down %s", settings.app.name)
 
@@ -83,6 +91,15 @@ def create_app() -> FastAPI:
 
     # Include routers
     application.include_router(health_router)
+    application.include_router(followup_router)
+    application.include_router(language_router)
+    application.include_router(clinician_router)
+    application.include_router(comparer_router)
+
+    # Mount UI static files
+    ui_dir = PROJECT_ROOT / "ui"
+    if ui_dir.is_dir():
+        application.mount("/ui", StaticFiles(directory=str(ui_dir), html=True), name="ui")
 
     @application.get("/", tags=["Root"])
     def root() -> Dict[str, Any]:
@@ -96,6 +113,14 @@ def create_app() -> FastAPI:
             "endpoints": {
                 "health": "/health",
                 "health_detail": "/health/detail",
+                "followups": "/followups",
+                "languages": "/languages",
+                "cases": "/cases",
+                "comparer_summary": "/comparer/summary",
+                "comparer_cases": "/comparer/cases",
+                "comparer_compare": "/comparer/compare/{case_id}",
+                "evaluate": "/evaluate",
+                "ui": "/ui",
                 "openapi_docs": "/docs",
                 "redoc": "/redoc",
             },

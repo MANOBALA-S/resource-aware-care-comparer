@@ -10,6 +10,7 @@ from src.constraint_engine.models import ResourceStatus
 from src.constraint_engine.resource_filter import (
     check_registry_conflicts,
     evaluate_resource_availability,
+    resolve_registry_pair_conflict,
 )
 from src.models.operational_models import (
     ConnectivityQuality,
@@ -19,6 +20,38 @@ from src.models.operational_models import (
     TravelConstraints,
 )
 from src.protocol_engine.protocol_engine import get_protocol_engine
+
+
+def test_disparate_registry_a_vs_b_conflict() -> None:
+    """Test Edge Case 2: Registry A reports specialist available, Registry B reports unavailable.
+
+    Expected:
+    - Status: REGISTRY_CONFLICT
+    - Safer assumption: resource unavailable (available = False)
+    - No averaging or guessing.
+    """
+    registry_a = {
+        "site_id": "SITE-001",
+        "specialist_available": True,
+        "specialists": ["endocrinologist", "cardiologist"],
+    }
+    registry_b = {
+        "site_id": "SITE-001",
+        "specialist_available": False,
+        "specialists": [],
+    }
+
+    status_code, available, reason = resolve_registry_pair_conflict(
+        registry_a=registry_a,
+        registry_b=registry_b,
+        resource="specialist",
+    )
+
+    assert status_code == "REGISTRY_CONFLICT"
+    assert available is False
+    assert "REGISTRY_CONFLICT" in reason
+    assert "Safer clinical assumption applied" in reason
+    assert "No averaging or guessing" in reason
 
 
 def test_direct_conflict_detection_treats_resource_as_unavailable() -> None:

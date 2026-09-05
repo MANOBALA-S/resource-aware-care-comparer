@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resource-Aware Care Option Comparer — Follow-Up Queue</title>
+  <meta name="description" content="Local health worker and clinical coordinator dashboard for follow-up tracking, overdue alerts, and non-disappearing escalation management.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="followup.css">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+
+    <!-- Header & Governance Notice -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="header-icon" aria-hidden="true">📋</div>
+        <div>
+          <h1 class="header-title">Resource-Aware Care Option Comparer</h1>
+          <p class="header-subtitle">Follow-Up & Escalation Coordinator Dashboard</p>
+        </div>
+      </div>
+
+      <!-- Prominent Governance Disclaimer Badges -->
+      <div style="display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-end;">
+        <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); color: #fbbf24; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px;">
+          SYNTHETIC DATA — FOR DEMONSTRATION ONLY
+        </div>
+        <div class="governance-badge" role="note" aria-label="Clinical governance notice">
+          <span class="pulse-dot"></span>
+          <span>Decision-support prototype — clinician sign-off required.</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-run-scheduler" class="btn-scheduler" type="button" onclick="triggerOverdueCheck()">
+          <span class="btn-icon">⏱️</span> Run Overdue SLA Check
+        </button>
+        <a href="/ui/clinician/index.html" class="nav-link-btn" title="Open Clinician Teleconsult Screen">
+          🩺 Clinician Screen
+        </a>
+        <a href="/ui/comparer/index.html" class="nav-link-btn" title="Open Care Option Comparison Screen">
+          🔄 Option Comparer
+        </a>
+      </div>
+    </header>
+
+    <!-- Dashboard Metric KPI Cards -->
+    <section class="kpi-grid" aria-label="Follow-up summary counters">
+      <!-- Total Follow-ups -->
+      <div class="kpi-card kpi-total">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Follow-ups</span>
+          <span class="kpi-icon">📊</span>
+        </div>
+        <div class="kpi-value" id="kpi-total-val">0</div>
+        <div class="kpi-subtext">All operational care tasks</div>
+      </div>
+
+      <!-- Pending Tasks -->
+      <div class="kpi-card kpi-pending">
+        <div class="kpi-header">
+          <span class="kpi-title">Pending Tasks</span>
+          <span class="kpi-icon">⏳</span>
+        </div>
+        <div class="kpi-value" id="kpi-pending-val">0</div>
+        <div class="kpi-subtext">Awaiting or in progress</div>
+      </div>
+
+      <!-- Overdue Tasks -->
+      <div class="kpi-card kpi-overdue">
+        <div class="kpi-header">
+          <span class="kpi-title">Overdue Tasks</span>
+          <span class="kpi-icon">🚨</span>
+        </div>
+        <div class="kpi-value" id="kpi-overdue-val">0</div>
+        <div class="kpi-subtext">SLA deadline breached</div>
+      </div>
+
+      <!-- Escalated Tasks -->
+      <div class="kpi-card kpi-escalated">
+        <div class="kpi-header">
+          <span class="kpi-title">Escalated Tasks</span>
+          <span class="kpi-icon">📈</span>
+        </div>
+        <div class="kpi-value" id="kpi-escalated-val">0</div>
+        <div class="kpi-subtext">Active escalation ladder</div>
+      </div>
+
+      <!-- Completed Tasks -->
+      <div class="kpi-card kpi-completed">
+        <div class="kpi-header">
+          <span class="kpi-title">Completed Tasks</span>
+          <span class="kpi-icon">✅</span>
+        </div>
+        <div class="kpi-value" id="kpi-completed-val">0</div>
+        <div class="kpi-subtext">Closed care milestones</div>
+      </div>
+    </section>
+
+    <!-- Filter Toolbar -->
+    <section class="toolbar-card" aria-label="Filter and search queue">
+      <div class="filter-row">
+        <!-- View Scope Toggle (Active Queue vs Historical Records) -->
+        <div class="filter-group">
+          <label for="filter-scope" class="filter-label">Queue View:</label>
+          <select id="filter-scope" onchange="applyFilters()">
+            <option value="active" selected>Active Queue (Pending, Overdue, Escalated)</option>
+            <option value="all">All Records (Includes Completed History)</option>
+            <option value="completed">Completed History Only</option>
+          </select>
+        </div>
+
+        <!-- Filter by Urgency -->
+        <div class="filter-group">
+          <label for="filter-urgency" class="filter-label">Urgency:</label>
+          <select id="filter-urgency" onchange="applyFilters()">
+            <option value="ALL">All Urgencies</option>
+            <option value="CRITICAL">CRITICAL</option>
+            <option value="HIGH">HIGH</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="LOW">LOW</option>
+          </select>
+        </div>
+
+        <!-- Filter by Status -->
+        <div class="filter-group">
+          <label for="filter-status" class="filter-label">Status:</label>
+          <select id="filter-status" onchange="applyFilters()">
+            <option value="ALL">All Statuses</option>
+            <option value="PENDING">PENDING</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="OVERDUE">OVERDUE</option>
+            <option value="ESCALATED">ESCALATED</option>
+            <option value="COMPLETED">COMPLETED</option>
+          </select>
+        </div>
+
+        <!-- Filter by Site -->
+        <div class="filter-group">
+          <label for="filter-site" class="filter-label">Site:</label>
+          <select id="filter-site" onchange="applyFilters()">
+            <option value="ALL">All Sites</option>
+            <option value="SITE-001">SITE-001 (Tertiary)</option>
+            <option value="SITE-002">SITE-002 (Remote PHC)</option>
+            <option value="SITE-003">SITE-003 (Rural Clinic)</option>
+            <option value="SITE-004">SITE-004 (Taluk Hospital)</option>
+            <option value="SITE-005">SITE-005 (Secondary)</option>
+            <option value="SITE-006">SITE-006 (Tribal Mobile)</option>
+          </select>
+        </div>
+
+        <!-- Filter by Language -->
+        <div class="filter-group">
+          <label for="filter-language" class="filter-label">Language:</label>
+          <select id="filter-language" onchange="applyFilters()">
+            <option value="ALL">All Languages</option>
+            <option value="ta">Tamil (ta)</option>
+            <option value="en">English (en)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="search-and-toggles-row">
+        <!-- Quick Toggles -->
+        <div class="toggles-group">
+          <label class="toggle-chip">
+            <input type="checkbox" id="toggle-overdue-only" onchange="applyFilters()">
+            <span>🚨 Overdue Only</span>
+          </label>
+          <label class="toggle-chip">
+            <input type="checkbox" id="toggle-escalated-only" onchange="applyFilters()">
+            <span>📈 Escalated Only</span>
+          </label>
+        </div>
+
+        <!-- Search Input -->
+        <div class="search-group">
+          <input type="text" id="search-input" placeholder="Search by Case ID, Owner, or Task..." oninput="applyFilters()">
+          <button class="btn-clear" onclick="clearFilters()" title="Reset all filters">Reset Filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Task Queue Table Section -->
+    <main class="queue-section" aria-label="Follow-up action queue">
+      <div class="queue-card">
+        <div class="queue-header">
+          <div class="queue-header-left">
+            <h2>Accountable Task Queue</h2>
+            <span class="queue-counter-badge" id="queue-count-badge">0 Tasks</span>
+          </div>
+          <div class="queue-invariants-note">
+            🛡️ <strong>No Silent Disappearance:</strong> Tasks remain visible until completed or resolved.
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="queue-table" id="queue-table">
+            <thead>
+              <tr>
+                <th>Case ID</th>
+                <th>Task & Instructions</th>
+                <th>Urgency</th>
+                <th>Owner</th>
+                <th>Due Date (SLA)</th>
+                <th>Status</th>
+                <th>Escalation</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="queue-table-body">
+              <tr>
+                <td colspan="8" class="table-loading">Loading follow-up tasks from server...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Task Detail & Audit Trail Modal -->
+    <div id="task-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div>
+            <h3 class="modal-title" id="modal-title">Follow-Up Task Details</h3>
+            <span class="modal-subtext" id="modal-task-id">—</span>
+          </div>
+          <button class="modal-close-btn" onclick="closeModal()" aria-label="Close modal">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-grid-2col">
+            <div class="modal-info-item">
+              <span class="modal-label">Case ID</span>
+              <span class="modal-value" id="modal-case-id">—</span>
+            </div>
+            <div class="modal-info-item">
+              <span class="modal-label">Urgency</span>
+              <span class="modal-value" id="modal-urgency">—</span>
+            </div>
+            <div class="modal-info-item">
+              <span class="modal-label">Assigned Owner</span>
+              <span class="modal-value highlight" id="modal-owner">—</span>
+            </div>
+            <div class="modal-info-item">
+              <span class="modal-label">Task Status</span>
+              <span class="modal-value" id="modal-status">—</span>
+            </div>
+            <div class="modal-info-item">
+              <span class="modal-label">SLA Due Date</span>
+              <span class="modal-value" id="modal-due-at">—</span>
+            </div>
+            <div class="modal-info-item">
+              <span class="modal-label">Escalation Trigger SLA</span>
+              <span class="modal-value" id="modal-esc-due-at">—</span>
+            </div>
+          </div>
+
+          <!-- Escalation Ladder -->
+          <div class="modal-section">
+            <span class="modal-label">Configured Escalation Hierarchy</span>
+            <div class="modal-ladder" id="modal-escalation-ladder">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Instructions -->
+          <div class="modal-section">
+            <span class="modal-label">Clinical Task Instructions</span>
+            <p class="modal-description-box" id="modal-instructions">—</p>
+          </div>
+
+          <!-- Audit Log Timeline -->
+          <div class="modal-section">
+            <span class="modal-label">Chronological Audit Log & Escalations</span>
+            <div class="audit-timeline" id="modal-audit-timeline">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Disclaimers -->
+    <footer class="app-footer">
+      <div class="footer-notices">
+        <p>⚠️ <strong>Decision-Support Prototype:</strong> Clinician sign-off required before implementing any recommendation.</p>
+        <p>🔒 <strong>Synthetic Operational Data:</strong> No real patient data is used. All clinical cases, sites, and protocols are synthetic.</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="followup.js"></script>
+</body>
+</html>

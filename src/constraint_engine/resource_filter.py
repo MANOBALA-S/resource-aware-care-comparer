@@ -9,39 +9,111 @@ from src.constraint_engine.models import ResourceEvaluation, ResourceStatus
 from src.models.operational_models import ServiceSite, TravelConstraints
 
 
+def resolve_registry_pair_conflict(
+    registry_a: Dict[str, Any],
+    registry_b: Dict[str, Any],
+    resource: str,
+) -> Tuple[str, bool, str]:
+    """Compare two disparate service registry sources for a specific capability.
+
+    If Registry A and Registry B provide contradictory information (e.g. Registry A
+    states specialist is available while Registry B states specialist is unavailable):
+    - Status: "REGISTRY_CONFLICT"
+    - Safer clinical assumption: resource treated as unavailable (False).
+    - Guarantees: No averaging, guessing, or optimistic extrapolation.
+
+    Returns:
+        Tuple of (status_code, available, reason_message)
+    """
+    # Helper to check availability in a registry dict
+    def _is_available(reg: Dict[str, Any], res: str) -> Optional[bool]:
+        # Check explicit resource flags
+        if res in reg and isinstance(reg[res], bool):
+            return reg[res]
+        if f"{res}_available" in reg and isinstance(reg[f"{res}_available"], bool):
+            return reg[f"{res}_available"]
+        if f"{res}_unavailable" in reg and isinstance(reg[f"{res}_unavailable"], bool):
+            return not reg[f"{res}_unavailable"]
+        # Check specialists list
+        if res in ("specialist", "specialist_48h", "specialists"):
+            if "specialists" in reg and isinstance(reg["specialists"], list):
+                return len(reg["specialists"]) > 0
+            if "specialist_available" in reg:
+                return bool(reg["specialist_available"])
+        # Check equipment list
+        if "equipment" in reg and isinstance(reg["equipment"], list):
+            if res in reg["equipment"]:
+                return True
+        # Check medication list
+        if "medication_stock" in reg and isinstance(reg["medication_stock"], list):
+            if res in reg["medication_stock"]:
+                return True
+        return None
+
+    avail_a = _is_available(registry_a, resource)
+    avail_b = _is_available(registry_b, resource)
+
+    # If both explicitly defined and contradictory
+    if avail_a is not None and avail_b is not None and avail_a != avail_b:
+        return (
+            "REGISTRY_CONFLICT",
+            False,
+            (
+                f"REGISTRY_CONFLICT: Registry A reports {resource} as {avail_a}, but Registry B "
+                f"reports {resource} as {avail_b}. Safer clinical assumption applied: {resource} "
+                "is treated as unavailable. No averaging or guessing permitted."
+            ),
+        )
+
+    # If agreed
+    if avail_a is True or avail_b is True:
+        return ("AVAILABLE", True, f"{resource} verified available.")
+    return ("UNAVAILABLE", False, f"{resource} not confirmed available.")
+
+
 def check_registry_conflicts(
     site_data: Dict[str, Any],
     resource: str,
 ) -> Optional[str]:
     """Detect contradictory or ambiguous records in site data for a resource.
 
-    If conflicting data is found, returns an explanatory reason string.
+    If conflicting data is found, returns an explanatory reason string with REGISTRY_CONFLICT.
     Otherwise returns None.
     """
+    # 0. Check paired registries if provided
+    if "registry_a" in site_data and "registry_b" in site_data:
+        status, avail, reason = resolve_registry_pair_conflict(
+            site_data["registry_a"],
+            site_data["registry_b"],
+            resource,
+        )
+        if status == "REGISTRY_CONFLICT":
+            return reason
+
     # 1. Check explicit conflict markers
     conflicts = site_data.get("conflicts", {})
     if isinstance(conflicts, dict) and resource in conflicts:
-        return f"Conflicting {resource} records detected ({conflicts[resource]}). Safer assumption applied: {resource} treated as unavailable."
+        return f"REGISTRY_CONFLICT: Conflicting {resource} records detected ({conflicts[resource]}). Safer assumption applied: {resource} treated as unavailable."
 
     # 2. Check contradictory boolean flags in site metadata
     # e.g., specialist_available=True and specialist_available=False or specialist_unavailable=True
     if resource == "specialist_48h" or resource == "specialists":
         if site_data.get("specialist_available") is True and site_data.get("specialist_available_override") is False:
-            return "Conflicting specialist availability records detected. Safer assumption applied: specialist treated as unavailable."
+            return "REGISTRY_CONFLICT: Conflicting specialist availability records detected. Safer assumption applied: specialist treated as unavailable."
         if site_data.get("specialist_available") is True and site_data.get("specialist_unavailable") is True:
-            return "Conflicting specialist availability records detected. Safer assumption applied: specialist treated as unavailable."
+            return "REGISTRY_CONFLICT: Conflicting specialist availability records detected. Safer assumption applied: specialist treated as unavailable."
 
     if resource == "cold_chain":
         if site_data.get("cold_chain_available") is True and site_data.get("cold_chain_offline") is True:
-            return "Conflicting cold-chain records detected. Safer assumption applied: cold-chain treated as unavailable."
+            return "REGISTRY_CONFLICT: Conflicting cold-chain records detected. Safer assumption applied: cold-chain treated as unavailable."
 
     if resource == "same_day_imaging":
         if site_data.get("imaging_available") is True and site_data.get("imaging_offline") is True:
-            return "Conflicting imaging records detected. Safer assumption applied: same-day imaging treated as unavailable."
+            return "REGISTRY_CONFLICT: Conflicting imaging records detected. Safer assumption applied: same-day imaging treated as unavailable."
 
     if resource == "transport":
         if site_data.get("transport_available") is True and site_data.get("transport_offline") is True:
-            return "Conflicting transport records detected. Safer assumption applied: transport treated as unavailable."
+            return "REGISTRY_CONFLICT: Conflicting transport records detected. Safer assumption applied: transport treated as unavailable."
 
     return None
 
