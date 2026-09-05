@@ -1,0 +1,273 @@
+{
+  "metadata": {
+    "title": "Synthetic Clinical Protocol Library",
+    "version": "1.0.0",
+    "synthetic_data_notice": "Synthetic data only — no real patient data.",
+    "governance_notice": "Decision-support prototype — clinician sign-off required.",
+    "description": "Illustrative protocol library defining textbook standards of care and 4-tier recommendation ladders for teleconsultation decision-support."
+  },
+  "protocols": [
+    {
+      "protocol_id": "PROTO-001",
+      "protocol_version": "1.0.0",
+      "condition": "condition_alpha",
+      "title": "Condition Alpha: Acute Progressive Soft-Tissue & Peripheral Infection Protocol",
+      "urgency": "HIGH",
+      "textbook_recommendation": "Immediate parenteral broad-spectrum antimicrobial administration, urgent Doppler ultrasound within 6 hours to rule out deep fascial extension, surgical specialist consultation within 24 hours, and continuous wound observation in an inpatient surgical unit.",
+      "required_resources": [
+        "same_day_imaging",
+        "specialist_48h",
+        "medication_stock",
+        "cold_chain",
+        "transport",
+        "local_clinician"
+      ],
+      "follow_up_required": true,
+      "follow_up_interval": "6h",
+      "escalation_required": true,
+      "recommendation_ladder": {
+        "preferred": {
+          "option": "Initiate IV third-generation cephalosporin + Doppler ultrasonography + specialist surgical debridement evaluation within 12-24 hours.",
+          "required_resources": [
+            "same_day_imaging",
+            "specialist_48h",
+            "medication_stock",
+            "cold_chain",
+            "local_clinician"
+          ],
+          "rationale": "Textbook gold standard to arrest rapid microbial spread and preserve tissue integrity."
+        },
+        "resource_adapted_alternative": {
+          "option": "Oral high-potency fluoroquinolone or co-amoxiclav with strict limb elevation, povidone-iodine dressing, serial digital wound margin tracing by local health worker, and teleconsultation re-evaluation in 12 hours.",
+          "required_resources": [
+            "medication_stock",
+            "stable_connectivity",
+            "local_clinician"
+          ],
+          "rationale": "Feasible when advanced Doppler imaging and cold-chain IV infusion are unavailable locally; leverages local oral dispensary stock and digital serial photos."
+        },
+        "minimum_safe_fallback": {
+          "option": "Standard oral amoxicillin/clavulanic acid or co-trimoxazole, sterile dressing, complete immobilization, and mandatory bedside vital sign checks every 6 hours by LHW.",
+          "required_resources": [
+            "medication_stock",
+            "local_clinician"
+          ],
+          "rationale": "Basic anti-infective coverage to prevent sepsis when communication links and secondary diagnostics are completely severed."
+        },
+        "escalate_only": {
+          "option": "Emergency ambulance transfer to secondary taluk hospital with cold-pack wound stabilization and intravenous fluid access.",
+          "required_resources": [
+            "transport"
+          ],
+          "rationale": "Mandatory escalation when local oral stock is exhausted, spreading erythema crosses anatomical landmarks, or systemic fever develops."
+        }
+      }
+    },
+    {
+      "protocol_id": "PROTO-002",
+      "protocol_version": "1.0.0",
+      "condition": "condition_beta",
+      "title": "Condition Beta: Sub-Acute Decompensated Glycemic & Metabolic Instability Protocol",
+      "urgency": "MEDIUM",
+      "textbook_recommendation": "Comprehensive laboratory panel (HbA1c, venous blood glucose, serum ketones, serum electrolytes), initiation of weight-based subcutaneous refrigerated basal insulin regimen, dietary endocrinology counseling, and scheduled 24-hour endocrinologist tele-review.",
+      "required_resources": [
+        "specialist_48h",
+        "medication_stock",
+        "cold_chain",
+        "stable_connectivity",
+        "local_clinician"
+      ],
+      "follow_up_required": true,
+      "follow_up_interval": "24h",
+      "escalation_required": true,
+      "recommendation_ladder": {
+        "preferred": {
+          "option": "Refrigerated basal-bolus subcutaneous insulin titration + daily venous metabolic profile + direct endocrinologist supervision via teleconsultation.",
+          "required_resources": [
+            "specialist_48h",
+            "medication_stock",
+            "cold_chain",
+            "stable_connectivity"
+          ],
+          "rationale": "Rapidly stabilizes glucotoxicity and protects pancreatic beta-cell reserve using optimal physiological insulin replacement."
+        },
+        "resource_adapted_alternative": {
+          "option": "Maximized dual oral hypoglycemic regimen (Metformin + Glimepiride from verified sub-center inventory), paired with local capillary fingerstick blood glucose logging (fasting + post-prandial) managed by LHW.",
+          "required_resources": [
+            "medication_stock",
+            "local_clinician"
+          ],
+          "rationale": "Effective glycemic control achieved without requiring uninterrupted refrigeration or specialized laboratory technicians."
+        },
+        "minimum_safe_fallback": {
+          "option": "Single-agent oral Metformin titration with strict dietary carbohydrate restriction, hydration encouragement, and twice-daily urine glucose dipstick assessment.",
+          "required_resources": [
+            "medication_stock"
+          ],
+          "rationale": "Safe maintenance baseline preventing hyperosmolar crisis when secondary oral agents are unavailable."
+        },
+        "escalate_only": {
+          "option": "Urgent transfer to taluk referral facility if capillary glucose exceeds 350 mg/dL or if patient exhibits altered sensorium, vomiting, or Kussmaul respiration.",
+          "required_resources": [
+            "transport"
+          ],
+          "rationale": "Pre-empts fatal diabetic ketoacidosis or hyperosmolar hyperglycemic state requiring intensive intravenous rehydration."
+        }
+      }
+    },
+    {
+      "protocol_id": "PROTO-003",
+      "protocol_version": "1.0.0",
+      "condition": "condition_gamma",
+      "title": "Condition Gamma: Acute Hemodynamic & Neurologic Vulnerability Protocol",
+      "urgency": "CRITICAL",
+      "textbook_recommendation": "Immediate emergency non-contrast brain computed tomography (CT) within 60 minutes, tertiary neurologist intervention, continuous 12-lead electrocardiographic telemetry, and intravenous neurovascular thrombolytic/anticoagulant evaluation.",
+      "required_resources": [
+        "same_day_imaging",
+        "specialist_48h",
+        "medication_stock",
+        "cold_chain",
+        "transport",
+        "local_clinician"
+      ],
+      "follow_up_required": true,
+      "follow_up_interval": "1h",
+      "escalation_required": true,
+      "recommendation_ladder": {
+        "preferred": {
+          "option": "Rapid emergency medical transport to stroke-ready tertiary center with simultaneous CT acquisition, neurologist consult, and acute vascular intervention.",
+          "required_resources": [
+            "same_day_imaging",
+            "specialist_48h",
+            "transport"
+          ],
+          "rationale": "Maximizes neurological penumbra rescue within the critical 3-to-4.5-hour therapeutic window."
+        },
+        "resource_adapted_alternative": {
+          "option": "Immediate high-flow oxygen, continuous blood pressure monitoring, airway aspiration protection, and prioritized ambulance transit with remote neurologist video guidance en route.",
+          "required_resources": [
+            "transport",
+            "stable_connectivity",
+            "local_clinician"
+          ],
+          "rationale": "Stabilizes vital organ perfusion and prevents hypoxia during transfer when local imaging is absent."
+        },
+        "minimum_safe_fallback": {
+          "option": "Supportive positioning (30-degree head elevation), clear airway maintenance, vital sign logging every 15 minutes by LHW, and immediate family mobilization for local conveyance.",
+          "required_resources": [
+            "local_clinician"
+          ],
+          "rationale": "Basic life-support stabilization while emergency transportation is arranged."
+        },
+        "escalate_only": {
+          "option": "Immediate Tier-3 code activation: dispatch emergency transfer vehicle to nearest facility with resuscitation capability.",
+          "required_resources": [
+            "transport"
+          ],
+          "rationale": "Critical physiological decompensation cannot be safely managed in peripheral setting."
+        }
+      }
+    },
+    {
+      "protocol_id": "PROTO-004",
+      "protocol_version": "1.0.0",
+      "condition": "condition_delta",
+      "title": "Condition Delta: Primary Chronic Cardiovascular & Hypertension Protocol",
+      "urgency": "LOW",
+      "textbook_recommendation": "Comprehensive baseline 12-lead ECG, serum creatinine, lipid profile, initiation of combination ACE-inhibitor/calcium channel blocker, lifestyle modification counseling, and 72-hour blood pressure re-assessment.",
+      "required_resources": [
+        "medication_stock",
+        "local_clinician",
+        "interpreter"
+      ],
+      "follow_up_required": true,
+      "follow_up_interval": "72h",
+      "escalation_required": false,
+      "recommendation_ladder": {
+        "preferred": {
+          "option": "First-line fixed-dose combination anti-hypertensive (Amlodipine + Telmisartan), automated home BP monitor provided, structured lifestyle/dietary guidance in preferred language.",
+          "required_resources": [
+            "medication_stock",
+            "interpreter",
+            "local_clinician"
+          ],
+          "rationale": "Rapid achievement of target blood pressure (<130/80 mmHg) with high adherence through single-pill combination therapy."
+        },
+        "resource_adapted_alternative": {
+          "option": "Generic single-agent oral Amlodipine (5 mg daily) from sub-center dispensary, scheduled bi-weekly BP checks at village health post by LHW, verbal dietary salt reduction advice in vernacular language.",
+          "required_resources": [
+            "medication_stock",
+            "local_clinician",
+            "interpreter"
+          ],
+          "rationale": "Achieves reliable pressure reduction utilizing widely stocked essential generic medication without requiring personal home digital cuff."
+        },
+        "minimum_safe_fallback": {
+          "option": "Standard Hydrochlorothiazide or generic beta-blocker from village kit, accompanied by lifestyle counseling and monthly manual sphygmomanometer check.",
+          "required_resources": [
+            "medication_stock"
+          ],
+          "rationale": "Basic reduction of long-term cardiovascular risk when modern dual-agent pills are out of stock."
+        },
+        "escalate_only": {
+          "option": "Urgent referral to secondary medical officer if systolic BP persistently exceeds 180 mmHg or if patient reports new-onset headache, visual blur, or chest discomfort.",
+          "required_resources": [
+            "transport"
+          ],
+          "rationale": "Pre-empts hypertensive emergency with acute end-organ damage."
+        }
+      }
+    },
+    {
+      "protocol_id": "PROTO-005",
+      "protocol_version": "1.0.0",
+      "condition": "condition_epsilon",
+      "title": "Condition Epsilon: Reactive Airway Bronchospasm & Respiratory Distress Protocol",
+      "urgency": "MEDIUM",
+      "textbook_recommendation": "Metered-dose inhaler (MDI) with spacer device for short-acting beta-2 agonist (Salbutamol) and inhaled corticosteroid (Budesonide), peak expiratory flow rate (PEFR) spirometry monitoring, pulse oximetry tracking, and 24-hour pulmonologist review.",
+      "required_resources": [
+        "specialist_48h",
+        "medication_stock",
+        "local_clinician",
+        "stable_connectivity"
+      ],
+      "follow_up_required": true,
+      "follow_up_interval": "24h",
+      "escalation_required": true,
+      "recommendation_ladder": {
+        "preferred": {
+          "option": "Salbutamol + Budesonide MDI via spacer, continuous pulse oximetry, peak flow measurement before and after bronchodilator, and 24-hour remote tele-pulmonology review.",
+          "required_resources": [
+            "specialist_48h",
+            "medication_stock",
+            "stable_connectivity",
+            "local_clinician"
+          ],
+          "rationale": "Targeted airway therapy with immediate topical bronchodilation and anti-inflammatory suppression with objective lung function metrics."
+        },
+        "resource_adapted_alternative": {
+          "option": "Oral Salbutamol or Theophylline derivative, paired with local portable electric/foot-pump nebulization if available, pulse oximetry checks by LHW, and respiratory rate counting.",
+          "required_resources": [
+            "medication_stock",
+            "local_clinician"
+          ],
+          "rationale": "Relieves bronchospasm using accessible oral/nebulized dispensary formulations when proprietary inhaler spacers are unavailable."
+        },
+        "minimum_safe_fallback": {
+          "option": "Short-course oral prednisolone (30 mg daily for 3 days), steam inhalation, hydration, and resting in upright sitting position under direct observation.",
+          "required_resources": [
+            "medication_stock"
+          ],
+          "rationale": "Provides systemic anti-inflammatory action to reverse airway edema in remote settings without inhaler stocks."
+        },
+        "escalate_only": {
+          "option": "Immediate oxygen-equipped transport to hospital if peripheral oxygen saturation (SpO2) falls below 90% or if patient exhibits intercostal retractions or inability to speak in full sentences.",
+          "required_resources": [
+            "transport"
+          ],
+          "rationale": "Indicates impending respiratory fatigue and failure necessitating high-flow oxygen and mechanical ventilatory support."
+        }
+      }
+    }
+  ]
+}

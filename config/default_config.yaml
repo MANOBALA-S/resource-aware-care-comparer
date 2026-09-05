@@ -1,0 +1,75 @@
+# Resource-Aware Care Option Comparer - Default Configuration
+# Synthetic data only — no real patient data.
+# Decision-support prototype — clinician sign-off required.
+
+app:
+  name: "Resource-Aware Care Option Comparer"
+  version: "0.1.0"
+  environment: "development"
+  host: "127.0.0.1"
+  port: 8000
+  debug: true
+  database_url: "sqlite:///data/care_comparer.db"
+
+governance:
+  prototype_disclaimer: "Decision-support prototype — clinician sign-off required."
+  synthetic_data_policy: "Synthetic data only — no real patient data."
+  clinician_signoff_mandatory: true
+
+urgency_levels:
+  LOW:
+    code: "LOW"
+    label: "Low Urgency"
+    description: "Stable chronic monitoring, routine triage, or non-acute presentations without distress"
+    default_followup_hours: 72
+    max_escalation_tier: "L1"
+
+  MEDIUM:
+    code: "MEDIUM"
+    label: "Medium Urgency"
+    description: "Sub-acute conditions, elevated vitals without immediate organ decompensation"
+    default_followup_hours: 24
+    max_escalation_tier: "L2"
+
+  HIGH:
+    code: "HIGH"
+    label: "High Urgency"
+    description: "Acute clinical risk, rapidly progressive symptoms, severe infection, marked vital instability"
+    default_followup_hours: 6
+    max_escalation_tier: "L3"
+
+  CRITICAL:
+    code: "CRITICAL"
+    label: "Critical Urgency"
+    description: "Immediate life/limb threat, hemodynamic instability, acute respiratory distress"
+    default_followup_hours: 1
+    max_escalation_tier: "L3"
+
+escalation_levels:
+  L0:
+    tier: "L0"
+    title: "Local Health Worker Assessment"
+    responsible_actor: "Local health worker"
+    ack_timeout_minutes: 60
+    description: "Field acknowledgment, vitals collection, and initial local action verification"
+
+  L1:
+    tier: "L1"
+    title: "Care Coordinator Intervention"
+    responsible_actor: "Care coordinator"
+    ack_timeout_minutes: 180
+    description: "Logistics orchestration, supply dispatch, transport booking, or appointment assignment"
+
+  L2:
+    tier: "L2"
+    title: "Remote Clinician Re-evaluation"
+    responsible_actor: "Remote clinician"
+    ack_timeout_minutes: 360
+    description: "Physician teleconsultation review, regimen modification, and clinical escalation"
+
+  L3:
+    tier: "L3"
+    title: "Emergency Facility Transfer"
+    responsible_actor: "Emergency transfer team"
+    ack_timeout_minutes: 30
+    description: "Direct mobilization for emergency transport to secondary/tertiary hospital"

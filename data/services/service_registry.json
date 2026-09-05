@@ -1,0 +1,260 @@
+{
+  "metadata": {
+    "title": "Synthetic Service & Facility Registry",
+    "version": "1.0.0",
+    "synthetic_data_notice": "Synthetic data only — no real patient data.",
+    "governance_notice": "Decision-support prototype — clinician sign-off required.",
+    "description": "Synthetic healthcare facilities registry detailing equipment, medication stocks, cold-chain status, specialists, transport, and language capabilities across peripheral and referral tiers."
+  },
+  "sites": [
+    {
+      "site_id": "SITE-001",
+      "region": "Coastal South",
+      "site_name": "Kanyakumari Regional Tertiary Medical Center",
+      "clinic_tier": "Tertiary Hospital",
+      "equipment": [
+        "doppler_ultrasound",
+        "ct_scanner",
+        "mri_scanner",
+        "digital_xray",
+        "automated_biochemistry_analyzer",
+        "blood_gas_analyzer",
+        "12_lead_ecg",
+        "spirometry",
+        "pulse_oximeter"
+      ],
+      "medication_stock": [
+        "oral_antibiotics",
+        "iv_cephalosporins",
+        "fluoroquinolones",
+        "co_amoxiclav",
+        "metformin",
+        "glimepiride",
+        "insulin_regular",
+        "insulin_glargine",
+        "amlodipine",
+        "telmisartan",
+        "hydrochlorothiazide",
+        "salbutamol_inhaler",
+        "budesonide_inhaler",
+        "oral_prednisolone",
+        "iv_fluids"
+      ],
+      "cold_chain_available": true,
+      "specialists": [
+        "general_surgeon",
+        "vascular_surgeon",
+        "endocrinologist",
+        "neurologist",
+        "pulmonologist",
+        "cardiologist"
+      ],
+      "specialist_availability_hours": "24/7",
+      "transport_available": true,
+      "teleconsult_bandwidth": "100 Mbps (Fiber optic broadband)",
+      "supported_languages": [
+        "en",
+        "ta"
+      ],
+      "interpreter_languages": [
+        "en",
+        "ta",
+        "hi",
+        "ml"
+      ],
+      "operating_hours": "24/7 Emergency & Inpatient Care",
+      "registry_timestamp": "2026-09-01T00:00:00Z",
+      "registry_version": "1.0.0"
+    },
+    {
+      "site_id": "SITE-002",
+      "region": "Coastal South Rural",
+      "site_name": "Agastheeswaram Peripheral Village Sub-Center",
+      "clinic_tier": "Sub-Center",
+      "equipment": [
+        "manual_bp_cuff",
+        "glucometer_capillary",
+        "digital_thermometer",
+        "pulse_oximeter"
+      ],
+      "medication_stock": [
+        "oral_amoxicillin",
+        "oral_metformin",
+        "oral_amlodipine",
+        "oral_paracetamol",
+        "povidone_iodine",
+        "sterile_bandages"
+      ],
+      "cold_chain_available": false,
+      "specialists": [],
+      "specialist_availability_hours": "None (Visiting medical officer once monthly)",
+      "transport_available": false,
+      "teleconsult_bandwidth": "128 kbps (Intermittent 2G/EDGE cellular)",
+      "supported_languages": [
+        "ta"
+      ],
+      "interpreter_languages": [],
+      "operating_hours": "Mon-Sat 08:30-14:30",
+      "registry_timestamp": "2026-09-01T00:00:00Z",
+      "registry_version": "1.0.0"
+    },
+    {
+      "site_id": "SITE-003",
+      "region": "Central Highland",
+      "site_name": "Manjolai Community Health Center",
+      "clinic_tier": "Community Health Center",
+      "equipment": [
+        "digital_xray",
+        "glucometer_capillary",
+        "semi_automated_lab",
+        "12_lead_ecg",
+        "portable_nebulizer",
+        "pulse_oximeter"
+      ],
+      "medication_stock": [
+        "oral_antibiotics",
+        "co_amoxiclav",
+        "oral_metformin",
+        "oral_glimepiride",
+        "oral_amlodipine",
+        "oral_salbutamol",
+        "oral_theophylline",
+        "oral_prednisolone",
+        "iv_fluids"
+      ],
+      "cold_chain_available": false,
+      "specialists": [
+        "general_duty_medical_officer"
+      ],
+      "specialist_availability_hours": "Remote teleconsultation on-call (09:00-17:00)",
+      "transport_available": true,
+      "teleconsult_bandwidth": "10 Mbps (4G LTE cellular data)",
+      "supported_languages": [
+        "en",
+        "ta"
+      ],
+      "interpreter_languages": [
+        "ta"
+      ],
+      "operating_hours": "Mon-Sun 08:00-20:00 with on-call emergency",
+      "registry_timestamp": "2026-09-01T00:00:00Z",
+      "registry_version": "1.0.0"
+    },
+    {
+      "site_id": "SITE-004",
+      "region": "Central Highland Remote",
+      "site_name": "Upper Kodayar Primary Health Post",
+      "clinic_tier": "Primary Health Center",
+      "equipment": [
+        "point_of_care_ultrasound_basic",
+        "glucometer_capillary",
+        "urine_dipstick_analyzer",
+        "pulse_oximeter"
+      ],
+      "medication_stock": [
+        "insulin_regular",
+        "oral_metformin",
+        "oral_hydrochlorothiazide",
+        "oral_prednisolone",
+        "oral_paracetamol"
+      ],
+      "cold_chain_available": true,
+      "specialists": [],
+      "specialist_availability_hours": "None (Remote tele-specialist review only)",
+      "transport_available": false,
+      "teleconsult_bandwidth": "50 Mbps (High-speed satellite broadband)",
+      "supported_languages": [
+        "ta"
+      ],
+      "interpreter_languages": [],
+      "operating_hours": "Mon-Fri 09:00-16:00",
+      "registry_timestamp": "2026-09-01T00:00:00Z",
+      "registry_version": "1.0.0"
+    },
+    {
+      "site_id": "SITE-005",
+      "region": "Coastal South Taluk",
+      "site_name": "Nagercoil Taluk Sub-District Hospital",
+      "clinic_tier": "Sub-District Hospital",
+      "equipment": [
+        "digital_xray",
+        "ultrasound_general",
+        "automated_biochemistry_analyzer",
+        "12_lead_ecg",
+        "portable_nebulizer",
+        "pulse_oximeter"
+      ],
+      "medication_stock": [
+        "oral_antibiotics",
+        "iv_cephalosporins",
+        "co_amoxiclav",
+        "metformin",
+        "glimepiride",
+        "insulin_regular",
+        "amlodipine",
+        "telmisartan",
+        "salbutamol_inhaler",
+        "oral_prednisolone",
+        "iv_fluids"
+      ],
+      "cold_chain_available": true,
+      "specialists": [
+        "general_surgeon",
+        "pediatrician",
+        "general_physician"
+      ],
+      "specialist_availability_hours": "Mon-Sat 08:00-16:00 (Emergency coverage on call)",
+      "transport_available": true,
+      "teleconsult_bandwidth": "20 Mbps (VDSL broadband)",
+      "supported_languages": [
+        "en",
+        "ta"
+      ],
+      "interpreter_languages": [
+        "ta",
+        "ml"
+      ],
+      "operating_hours": "24/7 Inpatient & Casualty",
+      "registry_timestamp": "2026-09-01T00:00:00Z",
+      "registry_version": "1.0.0"
+    },
+    {
+      "site_id": "SITE-006",
+      "region": "Northern Urban Periphery",
+      "site_name": "Madurai North Municipal Urban Kiosk",
+      "clinic_tier": "Dispensary Kiosk",
+      "equipment": [
+        "glucometer_capillary",
+        "manual_bp_cuff",
+        "automated_bp_monitor",
+        "pulse_oximeter",
+        "teleconsult_terminal"
+      ],
+      "medication_stock": [
+        "oral_antibiotics",
+        "oral_metformin",
+        "oral_amlodipine",
+        "oral_telmisartan",
+        "oral_salbutamol",
+        "oral_prednisolone"
+      ],
+      "cold_chain_available": false,
+      "specialists": [],
+      "specialist_availability_hours": "None locally (Real-time teleconsultation booth)",
+      "transport_available": true,
+      "teleconsult_bandwidth": "50 Mbps (High-speed fiber optic)",
+      "supported_languages": [
+        "en",
+        "ta"
+      ],
+      "interpreter_languages": [
+        "en",
+        "ta",
+        "hi"
+      ],
+      "operating_hours": "Mon-Sat 08:00-18:00",
+      "registry_timestamp": "2026-09-01T00:00:00Z",
+      "registry_version": "1.0.0"
+    }
+  ]
+}

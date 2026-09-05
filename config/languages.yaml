@@ -1,0 +1,24 @@
+# Supported Languages Configuration
+# Designed for extensible multilingual support across clinical, field, and patient interfaces.
+# Synthetic data only — no real patient data.
+
+default_language: "en"
+
+languages:
+  - code: "en"
+    name: "English"
+    native_name: "English"
+    direction: "ltr"
+    is_default: true
+    enabled: true
+    locale: "en_US"
+    description: "Primary clinical, coordination, and administrative interface language"
+
+  - code: "ta"
+    name: "Tamil"
+    native_name: "தமிழ்"
+    direction: "ltr"
+    is_default: false
+    enabled: true
+    locale: "ta_IN"
+    description: "Regional vernacular language for patients and Local Health Workers"
